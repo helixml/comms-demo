@@ -16,6 +16,56 @@ Threading discipline (mirrors a real provider):
 - First message in a thread: `thread_id == message_id`.
 - Reply: copy `thread_id` from parent; `in_reply_to = parent.message_id`.
 
+## What a calling tool must implement
+
+To integrate with mock-channels, the calling service needs **one outbound call** and **one inbound endpoint**.
+
+### 1. Send messages to mock-channels (outbound)
+
+`POST http://<mock-host>:7765/in/<channel_id>`
+
+- `Content-Type: application/json`
+- Body is the `Message` envelope (see schema below).
+- Returns `204 No Content` on success, `4xx` on validation failure.
+- `<channel_id>` must already exist (seeded via CLI or `/admin`).
+
+### 2. Receive messages from mock-channels (inbound)
+
+Expose `POST /webhooks/<stream_id>` on your service. Mock-channels POSTs replies and operator-composed messages here.
+
+- `Content-Type: application/json`
+- Body is the same `Message` envelope.
+- Respond `2xx` to acknowledge; non-2xx is logged as a send error and surfaced in the UI.
+- The `<stream_id>` you advertise must match `helix_stream_id` registered for the channel in mock-channels.
+
+### Message JSON schema
+
+```json
+{
+  "from": "alice@example.com",
+  "to": ["bob@example.com"],
+  "subject": "Re: hello",
+  "body": "the message body",
+  "body_content_type": "text/plain",
+  "thread_id": "abc123",
+  "in_reply_to": "parent-msg-id",
+  "message_id": "this-msg-id",
+  "attachments": [
+    { "filename": "x.pdf", "content_type": "application/pdf", "url": "https://...", "size_bytes": 1234 }
+  ],
+  "extra": { "any": "json" }
+}
+```
+
+Required: `body`. All other fields are optional but follow the threading rules above.
+
+### Identity conventions
+
+- **email**: RFC 5322 addresses (`alice@example.com`)
+- **slack**: user IDs (`U01ABC2DE`)
+- **sms**: E.164 phone numbers (`+15551234567`)
+- Empty `from` means a system-originated message with no human author.
+
 ## Run
 
 ```bash
