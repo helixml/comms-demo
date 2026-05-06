@@ -31,6 +31,17 @@ linters:
         linters:
           - forbidigo
           - gosec
+  settings:
+    forbidigo:
+      forbid:
+        - pattern: ^fmt\.Print.*
+        - pattern: ^print(ln)?$
+    revive:
+      rules:
+        - name: error-strings
+          disabled: false
+        - name: error-naming
+          disabled: false
 
 formatters:
   enable:
@@ -40,16 +51,3 @@ formatters:
     goimports:
       local-prefixes:
         - github.com/helixml/comms-demo
-
-linters-settings:
-  forbidigo:
-    forbid:
-      - pattern: ^fmt\.Print.*
-      - pattern: ^print(ln)?$
-
-  revive:
-    rules:
-      - name: error-strings
-        disabled: false
-      - name: error-naming
-        disabled: false

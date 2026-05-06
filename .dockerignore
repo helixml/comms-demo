@@ -1,0 +1,13 @@
+.git
+.github
+.claude
+.playwright-mcp
+bin
+*.db
+*.db-journal
+coverage.out
+.DS_Store
+*.png
+README.md
+LICENSE
+CLAUDE.md
