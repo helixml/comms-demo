@@ -1,0 +1,18 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "←" [ref=e4] [cursor=pointer]:
+      - /url: /channel/slack-general?frame=phone
+    - generic [ref=e5]: U0ALICE
+    - generic [ref=e6]: 2 msg
+  - generic [ref=e7]:
+    - generic [ref=e8]:
+      - generic [ref=e9]: U
+      - generic [ref=e10]:
+        - generic [ref=e11]: U0BOB 22:51
+        - generic [ref=e12]: hey can you take a look at the deploy diff? something feels off in the staging env
+    - generic [ref=e14]:
+      - generic [ref=e15]: "checking it now — looks like the staging deploy is missing the env var bump from PR #482, let me re-run the pipeline"
+      - generic [ref=e16]: U0ALICE · 22:53
+  - generic [ref=e18]:
+    - 'textbox "Message #general" [ref=e19]'
+    - button "Send" [ref=e20] [cursor=pointer]

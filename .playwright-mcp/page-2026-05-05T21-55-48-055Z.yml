@@ -1,0 +1,14 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "←" [ref=e4] [cursor=pointer]:
+      - /url: /channel/slack-general?frame=phone
+    - generic [ref=e5]: New direct message
+  - generic [ref=e6]:
+    - generic [ref=e7]: From U0ALICE
+    - 'textbox "To: U0123ABCD or #channel" [ref=e8]'
+    - textbox "(optional thread topic)" [ref=e9]
+    - textbox "Write a message…" [ref=e10]
+    - generic [ref=e11]:
+      - link "Cancel" [ref=e12] [cursor=pointer]:
+        - /url: /channel/slack-general?frame=phone
+      - button "Send" [ref=e13] [cursor=pointer]

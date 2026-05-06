@@ -1,0 +1,55 @@
+version: "2"
+
+run:
+  timeout: 10m
+
+linters:
+  enable:
+    - staticcheck
+    - unconvert
+    - ineffassign
+    - govet
+    - misspell
+    - unused
+    - bodyclose
+    - tparallel
+    - errcheck
+    - revive
+    - errorlint
+    - nolintlint
+    - gosec
+    - forbidigo
+  exclusions:
+    paths:
+      - vendor
+      - bin
+    rules:
+      - path: 'cmd/'
+        linters:
+          - forbidigo
+      - path: '.*_test.go'
+        linters:
+          - forbidigo
+          - gosec
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/helixml/comms-demo
+
+linters-settings:
+  forbidigo:
+    forbid:
+      - pattern: ^fmt\.Print.*
+      - pattern: ^print(ln)?$
+
+  revive:
+    rules:
+      - name: error-strings
+        disabled: false
+      - name: error-naming
+        disabled: false

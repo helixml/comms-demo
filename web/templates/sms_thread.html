@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+{{ template "head" (dict "Title" "Messages") }}
+<style>
+  body { background: #fff; }
+  .ios-header { background: #f9f9fb; }
+  .bubble-them { background: #e5e5ea; color: #000; border-radius: 18px 18px 18px 4px; }
+  .bubble-me { background: #007aff; color: #fff; border-radius: 18px 18px 4px 18px; }
+</style>
+</head>
+<body>
+
+{{ $last := lastMsg .Thread.Messages }}
+{{ $threadID := .Thread.ThreadID }}
+{{ $other := otherParty .Thread.Messages .Channel.LocalIdentity }}
+
+<div class="flex flex-col h-screen">
+  <div class="ios-header sticky top-0 z-10 border-b border-neutral-200 px-2 py-2 flex items-center gap-2">
+    <a class="text-blue-500 text-base px-1" href="/channel/{{ .Channel.ChannelID }}{{ if .Frame }}?frame=phone{{ end }}">‹ Messages</a>
+    <div class="ml-auto flex flex-col items-center">
+      <div class="bg-neutral-300 text-white rounded-full w-9 h-9 flex items-center justify-center text-xs font-semibold">{{ initials $other }}</div>
+      <div class="text-[11px] text-neutral-700 mt-0.5">{{ if $other }}{{ $other }}{{ else }}(unknown){{ end }} ›</div>
+    </div>
+    <div class="ml-auto w-12"></div>
+  </div>
+
+  <div class="flex-1 overflow-y-auto px-3 py-2 space-y-1.5 bg-white">
+    {{ range .Thread.Messages }}
+      {{ if isOutbound .Direction }}
+        <div class="flex justify-end">
+          <div class="max-w-[78%]">
+            <div class="bubble-me px-3 py-2 text-sm whitespace-pre-wrap break-words">{{ .Body }}</div>
+            <div class="text-[10px] text-neutral-400 text-right mt-0.5">{{ fmtClock .CreatedAt }}{{ if .SendError }} · ⚠{{ end }}</div>
+          </div>
+        </div>
+      {{ else }}
+        <div class="flex justify-start">
+          <div class="max-w-[78%]">
+            <div class="bubble-them px-3 py-2 text-sm whitespace-pre-wrap break-words">{{ .Body }}</div>
+            <div class="text-[10px] text-neutral-400 mt-0.5">{{ fmtClock .CreatedAt }}</div>
+          </div>
+        </div>
+      {{ end }}
+    {{ end }}
+  </div>
+
+  <form class="border-t border-neutral-200 p-2 bg-neutral-50" method="post"
+        action="/channel/{{ .Channel.ChannelID }}/reply{{ if .Frame }}?frame=phone{{ end }}">
+    <input type="hidden" name="thread_id" value="{{ $threadID }}">
+    <input type="hidden" name="in_reply_to" value="{{ $last.MessageID }}">
+    <input type="hidden" name="to" value="{{ $other }}">
+    <input type="hidden" name="subject" value="">
+    <div class="flex items-end gap-2">
+      <textarea class="textarea textarea-bordered flex-1 min-h-[40px] rounded-3xl bg-white" rows="1" name="body" placeholder="iMessage" required></textarea>
+      <button class="btn btn-sm btn-circle btn-primary" type="submit" aria-label="send">⬆</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

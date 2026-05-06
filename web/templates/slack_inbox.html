@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+{{ template "head" (dict "Title" "Slack mock") }}
+<style>
+  .slack-aubergine { background: #3F0E40; color: #fff; }
+  .slack-aubergine a { color: #fff; }
+  .slack-bg { background: #ffffff; }
+  .channel-row { color: #BCABBC; }
+  .channel-row.active, .channel-row:hover { background: #1164A3; color: #fff; }
+</style>
+</head>
+<body class="bg-white">
+
+<div class="flex flex-col h-screen">
+  <div class="slack-aubergine px-3 py-2 flex items-center gap-2">
+    <div class="text-base font-bold tracking-tight">helix-org</div>
+    <div class="ml-auto flex items-center gap-2">
+      <a href="/channel/{{ .Channel.ChannelID }}/compose{{ if .Frame }}?frame=phone{{ end }}"
+         class="btn btn-xs border-0"
+         style="background:#007a5a;color:#fff;">＋ DM</a>
+    </div>
+  </div>
+
+  <div class="slack-aubergine px-3 py-1 text-[11px] uppercase tracking-wide opacity-80">Channels</div>
+  <div class="slack-aubergine px-3 py-1 text-sm channel-row active">
+    # {{ .Channel.DisplayName }}
+  </div>
+
+  <div class="slack-aubergine px-3 py-2 text-[11px] uppercase tracking-wide opacity-80">Direct messages</div>
+
+  <div class="flex-1 overflow-y-auto bg-white">
+    {{ if not .Threads }}
+      <div class="p-6 text-center text-neutral-400">
+        <div class="text-3xl mb-2">💬</div>
+        <div class="text-sm">No conversations yet.</div>
+        <div class="text-xs mt-1">Helix Org POSTs land at <code>/in/{{ .Channel.ChannelID }}</code>.</div>
+      </div>
+    {{ end }}
+    {{ range .Threads }}
+      {{ $other := otherParty .Messages $.Channel.LocalIdentity }}
+      <a class="block px-3 py-2 border-b border-neutral-100 hover:bg-neutral-50"
+         href="/channel/{{ $.Channel.ChannelID }}/thread/{{ .ThreadID }}{{ if $.Frame }}?frame=phone{{ end }}">
+        <div class="flex items-center gap-2">
+          <div class="bg-emerald-500 text-white rounded w-8 h-8 flex items-center justify-center text-xs font-semibold shrink-0">
+            {{ initials $other }}
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2">
+              <div class="font-semibold text-sm text-neutral-800 truncate">{{ if $other }}{{ $other }}{{ else }}(unknown){{ end }}</div>
+              <div class="text-xs text-neutral-400 shrink-0">{{ fmtClock .LastAt }}</div>
+            </div>
+            <div class="text-xs text-neutral-500 truncate">{{ truncate .LastBody 90 }}</div>
+          </div>
+        </div>
+      </a>
+    {{ end }}
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+{{ template "head" (dict "Title" "Messages") }}
+<style>
+  body { background: #f2f2f7; }
+  .ios-header { background: #f9f9fb; }
+</style>
+</head>
+<body>
+
+<div class="flex flex-col h-screen">
+  <div class="ios-header sticky top-0 z-10 px-4 pt-4 pb-2 border-b border-neutral-200">
+    <div class="flex items-center justify-end">
+      <a class="text-blue-500 text-base" href="/channel/{{ .Channel.ChannelID }}/compose{{ if .Frame }}?frame=phone{{ end }}">📝</a>
+    </div>
+    <div class="text-3xl font-bold mt-1">Messages</div>
+    <div class="mt-2 relative">
+      <input class="input input-sm w-full bg-neutral-200 border-0 rounded-xl pl-8" placeholder="Search">
+      <span class="absolute left-3 top-1.5 text-neutral-500 text-sm">🔍</span>
+    </div>
+  </div>
+
+  <div class="flex-1 overflow-y-auto bg-white">
+    {{ if not .Threads }}
+      <div class="p-6 text-center text-neutral-400">
+        <div class="text-3xl mb-2">📲</div>
+        <div class="text-sm">No conversations.</div>
+        <div class="text-xs mt-1">Helix Org POSTs land at <code>/in/{{ .Channel.ChannelID }}</code>.</div>
+      </div>
+    {{ end }}
+    {{ range .Threads }}
+      {{ $other := otherParty .Messages $.Channel.LocalIdentity }}
+      <a class="flex items-center gap-3 px-4 py-3 border-b border-neutral-100 hover:bg-neutral-50"
+         href="/channel/{{ $.Channel.ChannelID }}/thread/{{ .ThreadID }}{{ if $.Frame }}?frame=phone{{ end }}">
+        <div class="bg-neutral-300 text-white rounded-full w-12 h-12 flex items-center justify-center text-base font-semibold shrink-0">
+          {{ initials $other }}
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between gap-2">
+            <div class="font-semibold text-base text-black truncate">{{ if $other }}{{ $other }}{{ else }}(unknown){{ end }}</div>
+            <div class="text-xs text-neutral-400 shrink-0">{{ fmtClock .LastAt }} ›</div>
+          </div>
+          <div class="text-sm text-neutral-600 truncate">{{ truncate .LastBody 80 }}</div>
+        </div>
+      </a>
+    {{ end }}
+  </div>
+</div>
+
+</body>
+</html>

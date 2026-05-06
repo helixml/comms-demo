@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+{{ template "head" (dict "Title" (printf "%s · Gmail mock" .Thread.Subject)) }}
+</head>
+<body class="bg-white">
+
+{{ $last := lastMsg .Thread.Messages }}
+{{ $threadID := .Thread.ThreadID }}
+{{ $other := otherParty .Thread.Messages .Channel.LocalIdentity }}
+
+<div class="flex flex-col h-screen">
+  <div class="flex items-center gap-2 px-3 py-3 border-b border-neutral-200 bg-white sticky top-0 z-10">
+    <a class="btn btn-ghost btn-sm btn-circle" href="/channel/{{ .Channel.ChannelID }}{{ if .Frame }}?frame=phone{{ end }}">←</a>
+    <div class="flex-1 min-w-0">
+      <div class="font-semibold text-neutral-800 truncate">{{ if .Thread.Subject }}{{ .Thread.Subject }}{{ else }}(no subject){{ end }}</div>
+      <div class="text-xs text-neutral-500 truncate">{{ len .Thread.Messages }} message(s) · {{ .Channel.LocalIdentity }}</div>
+    </div>
+  </div>
+
+  <div class="flex-1 overflow-y-auto px-3 py-3 space-y-3">
+    {{ range .Thread.Messages }}
+      <div class="card border border-neutral-200 shadow-sm">
+        <div class="card-body p-3">
+          <div class="flex items-start gap-2">
+            <div class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-xs font-semibold shrink-0">
+              {{ initials .From }}
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex justify-between items-center">
+                <div class="text-sm font-semibold text-neutral-800 truncate">
+                  {{ if isOutbound .Direction }}me ({{ .From }}){{ else }}{{ .From }}{{ end }}
+                </div>
+                <div class="text-xs text-neutral-500 shrink-0">{{ fmtTime .CreatedAt }}</div>
+              </div>
+              <div class="text-xs text-neutral-500 truncate">to {{ .ToCSV }}</div>
+              {{ if .SendError }}
+                <div class="alert alert-error mt-2 py-1 text-xs">⚠ send failed: {{ .SendError }}</div>
+              {{ end }}
+              <div class="prose prose-sm max-w-none mt-2 whitespace-pre-wrap text-neutral-800">
+                {{ if isHTML .BodyContentType }}
+                  <iframe class="w-full min-h-32 border border-neutral-200 rounded" sandbox srcdoc="{{ .Body }}" title="email html body"></iframe>
+                {{ else }}
+                  {{ .Body }}
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{ end }}
+  </div>
+
+  <form class="border-t border-neutral-200 p-3 bg-neutral-50" method="post"
+        action="/channel/{{ .Channel.ChannelID }}/reply{{ if .Frame }}?frame=phone{{ end }}">
+    <input type="hidden" name="thread_id" value="{{ $threadID }}">
+    <input type="hidden" name="in_reply_to" value="{{ $last.MessageID }}">
+    <div class="text-xs text-neutral-500 mb-1 flex items-center gap-1">to
+      <input class="input input-bordered input-xs flex-1" name="to" value="{{ $other }}">
+    </div>
+    <input class="input input-bordered input-sm w-full mb-2" name="subject" placeholder="Subject" value="Re: {{ $last.Subject }}">
+    <textarea class="textarea textarea-bordered w-full" rows="3" name="body" placeholder="Reply to thread…" required></textarea>
+    <div class="flex justify-end mt-2">
+      <button class="btn btn-sm btn-error text-white" type="submit">Send reply</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

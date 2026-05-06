@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+{{ template "head" (dict "Title" "Inbox · Gmail mock") }}
+</head>
+<body class="bg-white">
+
+<div class="flex flex-col h-screen">
+  <!-- Gmail header -->
+  <div class="flex items-center gap-3 px-4 py-3 border-b border-neutral-200 bg-white sticky top-0 z-10">
+    <div class="text-2xl">✉️</div>
+    <div class="flex-1">
+      <div class="flex items-center gap-2">
+        <span class="text-lg font-medium text-neutral-700">Inbox</span>
+        <span class="badge badge-ghost badge-sm">{{ len .Threads }}</span>
+      </div>
+      <div class="text-xs text-neutral-500">{{ .Channel.LocalIdentity }}</div>
+    </div>
+    <a href="/channel/{{ .Channel.ChannelID }}/compose{{ if .Frame }}?frame=phone{{ end }}" class="btn btn-sm btn-error text-white">Compose</a>
+  </div>
+
+  <!-- thread list -->
+  <div class="flex-1 overflow-y-auto">
+    {{ if not .Threads }}
+      <div class="p-8 text-center text-neutral-400">
+        <div class="text-5xl mb-3">📬</div>
+        <div>No mail yet.</div>
+        <div class="text-xs mt-1">Helix Org will POST to <code>/in/{{ .Channel.ChannelID }}</code>.</div>
+      </div>
+    {{ end }}
+    {{ range .Threads }}
+      <a class="block px-4 py-3 border-b border-neutral-100 hover:bg-neutral-50"
+         href="/channel/{{ $.Channel.ChannelID }}/thread/{{ .ThreadID }}{{ if $.Frame }}?frame=phone{{ end }}">
+        <div class="flex items-start gap-3">
+          <div class="avatar placeholder">
+            <div class="bg-red-500 text-white rounded-full w-9 h-9 flex items-center justify-center text-sm font-semibold">
+              {{ initials .LastFrom }}
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-2">
+              <div class="font-semibold text-sm text-neutral-800 truncate">{{ if .LastFrom }}{{ .LastFrom }}{{ else }}(unknown sender){{ end }}</div>
+              <div class="text-xs text-neutral-500 shrink-0">{{ fmtClock .LastAt }}</div>
+            </div>
+            <div class="text-sm text-neutral-700 truncate">{{ if .Subject }}{{ .Subject }}{{ else }}(no subject){{ end }}</div>
+            <div class="text-xs text-neutral-500 truncate">{{ truncate .LastBody 120 }}</div>
+          </div>
+        </div>
+      </a>
+    {{ end }}
+  </div>
+
+  <!-- bottom bar with link back -->
+  {{ if .Frame }}
+  <div class="flex justify-center py-2 border-t border-neutral-100 text-xs text-neutral-400">
+    Gmail mock · {{ .Channel.ChannelID }}
+  </div>
+  {{ end }}
+</div>
+
+</body>
+</html>

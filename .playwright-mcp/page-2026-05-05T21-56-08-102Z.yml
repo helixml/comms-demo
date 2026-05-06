@@ -1,0 +1,39 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "←" [ref=e4] [cursor=pointer]:
+      - /url: /channel/email-main?frame=phone
+    - generic [ref=e5]:
+      - generic [ref=e6]: "Re: Re: Q3 invoice ready for review"
+      - generic [ref=e7]: 3 message(s) · alice@example.com
+  - generic [ref=e8]:
+    - generic [ref=e11]:
+      - generic [ref=e12]: WS
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - generic [ref=e15]: w-sam
+          - generic [ref=e16]: 2026-05-05 22:51
+        - generic [ref=e17]: to alice@example.com
+        - generic [ref=e18]: Hi Alice — the revised invoice is attached, please confirm the totals before Friday. Net-30 still applies.
+    - generic [ref=e21]:
+      - generic [ref=e22]: AE
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e25]: me (alice@example.com)
+          - generic [ref=e26]: 2026-05-05 22:52
+        - generic [ref=e27]: to w-sam
+        - generic [ref=e28]: Thanks Sam — totals look correct, I'll countersign and forward to accounts payable today. Net-30 confirmed.
+    - generic [ref=e31]:
+      - generic [ref=e32]: WS
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]: w-sam
+          - generic [ref=e36]: 2026-05-05 22:55
+        - generic [ref=e37]: to alice@example.com
+        - generic [ref=e38]: Thanks for confirming! AP cc’d. Closing this thread.
+  - generic [ref=e39]:
+    - generic [ref=e40]:
+      - text: to
+      - textbox [ref=e41]: w-sam
+    - textbox "Subject" [ref=e42]: "Re: Re: Re: Q3 invoice ready for review"
+    - textbox "Reply to thread…" [ref=e43]
+    - button "Send reply" [ref=e45] [cursor=pointer]

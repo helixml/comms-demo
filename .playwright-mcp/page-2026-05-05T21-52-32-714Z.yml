@@ -1,0 +1,22 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "←" [ref=e4] [cursor=pointer]:
+      - /url: /channel/email-main?frame=phone
+    - generic [ref=e5]:
+      - generic [ref=e6]: Q3 invoice ready for review
+      - generic [ref=e7]: 1 message(s) · alice@example.com
+  - generic [ref=e11]:
+    - generic [ref=e12]: WS
+    - generic [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e15]: w-sam
+        - generic [ref=e16]: 2026-05-05 22:51
+      - generic [ref=e17]: to alice@example.com
+      - generic [ref=e18]: Hi Alice — the revised invoice is attached, please confirm the totals before Friday. Net-30 still applies.
+  - generic [ref=e19]:
+    - generic [ref=e20]:
+      - text: to
+      - textbox [ref=e21]: w-sam
+    - textbox "Subject" [ref=e22]: "Re: Q3 invoice ready for review"
+    - textbox "Reply to thread…" [ref=e23]
+    - button "Send reply" [ref=e25] [cursor=pointer]

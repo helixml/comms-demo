@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+{{ template "head" (dict "Title" "Admin · Mock Channels") }}
+</head>
+<body class="bg-base-200 min-h-screen">
+
+<div class="navbar bg-base-100 border-b">
+  <div class="flex-1"><a class="btn btn-ghost text-lg" href="/">📱 Mock Channels</a></div>
+  <div class="flex-none gap-2">
+    <a href="/" class="btn btn-sm btn-ghost">Back to phones</a>
+    <form method="post" action="/admin/reset" onsubmit="return confirm('Wipe all channels and messages?')">
+      <button class="btn btn-sm btn-error" type="submit">Reset all</button>
+    </form>
+  </div>
+</div>
+
+<main class="container mx-auto max-w-4xl p-4 grid gap-4">
+
+  <div class="card bg-base-100 shadow">
+    <div class="card-body">
+      <h2 class="card-title">Configured channels</h2>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>channel_id</th><th>kind</th><th>display</th><th>local identity</th>
+            <th>helix base</th><th>stream id</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ if not .Channels }}
+            <tr><td colspan="6" class="text-center text-neutral-400">No channels yet — add one below.</td></tr>
+          {{ end }}
+          {{ range .Channels }}
+            <tr>
+              <td><a class="link" href="/channel/{{ .ChannelID }}">{{ .ChannelID }}</a></td>
+              <td><span class="badge badge-outline">{{ .Kind }}</span></td>
+              <td>{{ .DisplayName }}</td>
+              <td class="font-mono text-xs">{{ .LocalIdentity }}</td>
+              <td class="font-mono text-xs">{{ .HelixBaseURL }}</td>
+              <td class="font-mono text-xs">{{ .HelixStreamID }}</td>
+            </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card bg-base-100 shadow">
+    <div class="card-body">
+      <h2 class="card-title">Add or update channel</h2>
+      <p class="text-sm text-neutral-500">
+        Saving the same <code>channel_id</code> updates the existing row.
+      </p>
+      <form method="post" action="/admin/channels" class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
+        <label class="form-control">
+          <div class="label"><span class="label-text">channel_id</span></div>
+          <input class="input input-bordered" name="channel_id" placeholder="email-main" required>
+        </label>
+        <label class="form-control">
+          <div class="label"><span class="label-text">kind</span></div>
+          <select class="select select-bordered" name="kind" required>
+            <option value="">-- pick --</option>
+            <option value="email">email</option>
+            <option value="slack">slack</option>
+            <option value="sms">sms</option>
+          </select>
+        </label>
+        <label class="form-control">
+          <div class="label"><span class="label-text">display name</span></div>
+          <input class="input input-bordered" name="display_name" placeholder="Inbox / general / SMS">
+        </label>
+        <label class="form-control">
+          <div class="label"><span class="label-text">local identity (from)</span></div>
+          <input class="input input-bordered" name="local_identity" placeholder="alice@example.com / U0ALICE / +15550100">
+        </label>
+        <label class="form-control md:col-span-2">
+          <div class="label"><span class="label-text">helix base url</span></div>
+          <input class="input input-bordered" name="helix_base_url" placeholder="http://localhost:8080">
+        </label>
+        <label class="form-control md:col-span-2">
+          <div class="label"><span class="label-text">helix stream id</span></div>
+          <input class="input input-bordered font-mono" name="helix_stream_id" placeholder="strm-abc123">
+        </label>
+        <div class="md:col-span-2 flex justify-end">
+          <button class="btn btn-primary" type="submit">Save channel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card bg-base-100 shadow">
+    <div class="card-body">
+      <h2 class="card-title text-base">Wire spec quick reference</h2>
+      <ul class="text-sm list-disc pl-6 space-y-1">
+        <li>Helix Org POSTs to <code>POST /in/&lt;channel_id&gt;</code> with a Message JSON body. We respond 204.</li>
+        <li>Operator replies POST to <code>&lt;helix_base_url&gt;/webhooks/&lt;helix_stream_id&gt;</code>.</li>
+        <li>Threading: first message <code>thread_id == message_id</code>; replies copy <code>thread_id</code> and set <code>in_reply_to</code>.</li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>
