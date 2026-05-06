@@ -3,3 +3,5 @@ bin/
 *.db-journal
 coverage.out
 .DS_Store
+.playwright-mcp/
+*.png
