@@ -1,0 +1,118 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: 📱 Mock Channels
+      - generic [ref=e5]: Helix Org demo · email · slack · sms
+    - generic [ref=e6]:
+      - link "Admin" [ref=e7] [cursor=pointer]:
+        - /url: /admin
+      - link "Health" [ref=e8] [cursor=pointer]:
+        - /url: /healthz
+  - generic [ref=e9]:
+    - generic [ref=e10]:
+      - generic [ref=e11]: 📧 Gmail
+      - iframe [ref=e15]:
+        - generic [ref=f1e2]:
+          - generic [ref=f1e3]:
+            - generic [ref=f1e4]: ✉️
+            - generic [ref=f1e5]:
+              - generic [ref=f1e6]:
+                - generic [ref=f1e7]: Inbox
+                - generic [ref=f1e8]: "2"
+              - generic [ref=f1e9]: alice@example.com
+            - link "Compose" [ref=f1e10] [cursor=pointer]:
+              - /url: /channel/email-main/compose?frame=phone
+          - generic [ref=f1e11]:
+            - 'link "SV support@vendor.com 08:19 [Ticket #481] Outage update We have identified the root cause and will roll out a fix within the hour." [ref=f1e12] [cursor=pointer]':
+              - /url: /channel/email-main/thread/thr-email-2?frame=phone
+              - generic [ref=f1e13]:
+                - generic [ref=f1e15]: SV
+                - generic [ref=f1e16]:
+                  - generic [ref=f1e17]:
+                    - generic [ref=f1e18]: support@vendor.com
+                    - generic [ref=f1e19]: 08:19
+                  - generic [ref=f1e20]: "[Ticket #481] Outage update"
+                  - generic [ref=f1e21]: We have identified the root cause and will roll out a fix within the hour.
+            - 'link "AE alice@example.com 08:25 Re: Q3 invoice ready for review test" [ref=f1e22] [cursor=pointer]':
+              - /url: /channel/email-main/thread/thr-email-1?frame=phone
+              - generic [ref=f1e23]:
+                - generic [ref=f1e25]: AE
+                - generic [ref=f1e26]:
+                  - generic [ref=f1e27]:
+                    - generic [ref=f1e28]: alice@example.com
+                    - generic [ref=f1e29]: 08:25
+                  - generic [ref=f1e30]: "Re: Q3 invoice ready for review"
+                  - generic [ref=f1e31]: test
+          - generic [ref=f1e32]: Gmail mock · email-main
+    - generic [ref=e16]:
+      - generic [ref=e17]: 💬 Slack
+      - iframe [ref=e21]:
+        - generic [ref=f2e2]:
+          - generic [ref=f2e3]:
+            - generic [ref=f2e4]: helix-org
+            - link "＋ DM" [ref=f2e6] [cursor=pointer]:
+              - /url: /channel/slack-general/compose?frame=phone
+          - generic [ref=f2e7]: Channels
+          - generic [ref=f2e8]: "# general"
+          - generic [ref=f2e9]: Direct messages
+          - generic [ref=f2e10]:
+            - link "U U0CARLA 08:19 shipping ETA?" [ref=f2e11] [cursor=pointer]:
+              - /url: /channel/slack-general/thread/thr-slack-2?frame=phone
+              - generic [ref=f2e12]:
+                - generic [ref=f2e13]: U
+                - generic [ref=f2e14]:
+                  - generic [ref=f2e15]:
+                    - generic [ref=f2e16]: U0CARLA
+                    - generic [ref=f2e17]: 08:19
+                  - generic [ref=f2e18]: shipping ETA?
+            - link "U U0BOB 08:19 hey can you take a look at the deploy diff? something feels off in the staging env" [ref=f2e19] [cursor=pointer]:
+              - /url: /channel/slack-general/thread/thr-slack-1?frame=phone
+              - generic [ref=f2e20]:
+                - generic [ref=f2e21]: U
+                - generic [ref=f2e22]:
+                  - generic [ref=f2e23]:
+                    - generic [ref=f2e24]: U0BOB
+                    - generic [ref=f2e25]: 08:19
+                  - generic [ref=f2e26]: hey can you take a look at the deploy diff? something feels off in the staging env
+    - generic [ref=e22]:
+      - generic [ref=e23]: 📱 SMS
+      - iframe [ref=e27]:
+        - generic [ref=f3e2]:
+          - generic [ref=f3e3]:
+            - link "📝" [ref=f3e5] [cursor=pointer]:
+              - /url: /channel/sms-main/compose?frame=phone
+            - generic [ref=f3e6]: Messages
+            - generic [ref=f3e7]:
+              - textbox "Search" [ref=f3e8]
+              - generic [ref=f3e9]: 🔍
+          - generic [ref=f3e10]:
+            - link "? (unknown) 08:27 › fdas" [ref=f3e11] [cursor=pointer]:
+              - /url: /channel/sms-main/thread/ce87e45f9a0025aaec36118286cce674?frame=phone
+              - generic [ref=f3e12]: "?"
+              - generic [ref=f3e13]:
+                - generic [ref=f3e14]:
+                  - generic [ref=f3e15]: (unknown)
+                  - generic [ref=f3e16]: 08:27 ›
+                - generic [ref=f3e17]: fdas
+            - link "11 +18002221111 08:19 › Your verification code is 484920. Do not share." [ref=f3e18] [cursor=pointer]:
+              - /url: /channel/sms-main/thread/thr-sms-2?frame=phone
+              - generic [ref=f3e19]: "11"
+              - generic [ref=f3e20]:
+                - generic [ref=f3e21]:
+                  - generic [ref=f3e22]: "+18002221111"
+                  - generic [ref=f3e23]: 08:19 ›
+                - generic [ref=f3e24]: Your verification code is 484920. Do not share.
+            - link "67 +15551234567 08:19 › Yo! still on for 7?" [ref=f3e25] [cursor=pointer]:
+              - /url: /channel/sms-main/thread/thr-sms-1?frame=phone
+              - generic [ref=f3e26]: "67"
+              - generic [ref=f3e27]:
+                - generic [ref=f3e28]:
+                  - generic [ref=f3e29]: "+15551234567"
+                  - generic [ref=f3e30]: 08:19 ›
+                - generic [ref=f3e31]: Yo! still on for 7?
+  - generic [ref=e28]:
+    - text: Each pane is a live mock provider. Helix Org POSTs to
+    - code [ref=e29]: /in/<channel_id>
+    - text: ; replies POST to
+    - code [ref=e30]: /webhooks/<stream_id>
+    - text: .

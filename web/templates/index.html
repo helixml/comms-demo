@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+{{ template "head" (dict "Title" "Mock Channels — Helix Org demo") }}
+<style>
+  body { background: #1a1d24; color: #d6d6d6; }
+  .phone-stage { padding: 32px 24px 48px; }
+  .phone {
+    width: 380px; height: 760px;
+    border-radius: 38px;
+    background: #111;
+    padding: 24px 14px 14px;
+    box-shadow:
+      0 0 0 2px #2a2a2a,
+      0 24px 60px rgba(0,0,0,0.55),
+      inset 0 0 0 4px #000;
+    position: relative;
+  }
+  .phone-notch {
+    position: absolute; top: 7px; left: 50%; transform: translateX(-50%);
+    width: 78px; height: 12px; background: #000; border-radius: 8px; z-index: 2;
+  }
+  .phone-screen {
+    width: 100%; height: 100%;
+    border-radius: 28px; overflow: hidden;
+    background: white;
+  }
+  .phone-screen iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .phone-label { color: #cfcfd6; font-weight: 600; letter-spacing: 0.04em; }
+  .topbar a { color: #d6d6d6; }
+  .missing-card {
+    width: 380px; height: 760px;
+    border-radius: 38px;
+    background: #111;
+    color: #aaa;
+    display: flex; align-items: center; justify-content: center;
+    padding: 32px; text-align: center;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+  }
+</style>
+</head>
+<body class="min-h-screen">
+
+<div class="topbar flex items-center justify-between px-6 py-4 border-b border-neutral-800">
+  <div class="flex items-center gap-3">
+    <span class="text-lg font-bold tracking-wide">📱 Mock Channels</span>
+    <span class="text-xs text-neutral-400">Helix Org demo · email · slack · sms</span>
+  </div>
+  <div class="flex gap-3 text-sm">
+    <a class="link link-hover" href="/admin">Admin</a>
+    <a class="link link-hover" href="/healthz" target="_blank">Health</a>
+  </div>
+</div>
+
+<div class="phone-stage flex flex-wrap justify-center gap-10">
+
+  <div class="flex flex-col items-center gap-3">
+    <span class="phone-label">📧 Gmail</span>
+    {{ if .Email }}
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <iframe data-pane="email" src="/channel/{{ .Email.ChannelID }}?frame=phone" title="Email pane"></iframe>
+      </div>
+    </div>
+    {{ else }}
+    <div class="missing-card">
+      <div>
+        <div class="text-xl font-semibold mb-2">No email channel configured</div>
+        <div class="text-sm">Add one in <a class="link" href="/admin">Admin</a> with kind=email.</div>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+
+  <div class="flex flex-col items-center gap-3">
+    <span class="phone-label">💬 Slack</span>
+    {{ if .Slack }}
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <iframe data-pane="slack" src="/channel/{{ .Slack.ChannelID }}?frame=phone" title="Slack pane"></iframe>
+      </div>
+    </div>
+    {{ else }}
+    <div class="missing-card">
+      <div>
+        <div class="text-xl font-semibold mb-2">No slack channel configured</div>
+        <div class="text-sm">Add one in <a class="link" href="/admin">Admin</a> with kind=slack.</div>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+
+  <div class="flex flex-col items-center gap-3">
+    <span class="phone-label">📱 SMS</span>
+    {{ if .SMS }}
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <iframe data-pane="sms" src="/channel/{{ .SMS.ChannelID }}?frame=phone" title="SMS pane"></iframe>
+      </div>
+    </div>
+    {{ else }}
+    <div class="missing-card">
+      <div>
+        <div class="text-xl font-semibold mb-2">No sms channel configured</div>
+        <div class="text-sm">Add one in <a class="link" href="/admin">Admin</a> with kind=sms.</div>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</div>
+
+<div class="text-center text-xs text-neutral-500 pb-6">
+  Each pane is a live mock provider. Helix Org POSTs to <code>/in/&lt;channel_id&gt;</code>; replies POST to <code>/webhooks/&lt;stream_id&gt;</code>.
+</div>
+
+</body>
+</html>

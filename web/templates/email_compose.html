@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+{{ template "head" (dict "Title" "Compose · Gmail mock") }}
+</head>
+<body class="bg-white">
+
+<div class="flex flex-col h-screen">
+  <div class="flex items-center gap-2 px-3 py-3 border-b border-neutral-200 bg-white sticky top-0 z-10">
+    <a class="btn btn-ghost btn-sm btn-circle" href="/channel/{{ .Channel.ChannelID }}{{ if .Frame }}?frame=phone{{ end }}">←</a>
+    <div class="font-semibold text-neutral-800 flex-1">New message</div>
+  </div>
+
+  <form class="flex-1 flex flex-col p-3 gap-2" method="post"
+        action="/channel/{{ .Channel.ChannelID }}/compose{{ if .Frame }}?frame=phone{{ end }}">
+    <label class="label-text text-xs text-neutral-500">From <span class="font-mono">{{ .Channel.LocalIdentity }}</span></label>
+    <input class="input input-bordered input-sm w-full" name="to" placeholder="To (comma separated)" required>
+    <input class="input input-bordered input-sm w-full" name="subject" placeholder="Subject">
+    <textarea class="textarea textarea-bordered flex-1" name="body" placeholder="Write your message…" required></textarea>
+    <div class="flex justify-end gap-2">
+      <a class="btn btn-sm btn-ghost" href="/channel/{{ .Channel.ChannelID }}{{ if .Frame }}?frame=phone{{ end }}">Cancel</a>
+      <button class="btn btn-sm btn-error text-white" type="submit">Send</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
